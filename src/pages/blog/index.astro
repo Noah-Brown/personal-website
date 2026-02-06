@@ -18,6 +18,9 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
       {posts.map((post) => (
         <li class="border-b border-border pb-8 last:border-0">
           <a href={`${base}blog/${post.id}/`} class="group block">
+            {post.data.image && (
+              <img src={post.data.image} alt={post.data.title} class="w-full h-48 object-cover rounded-lg mb-4" />
+            )}
             <h2 class="text-xl font-semibold text-text group-hover:text-accent transition-colors">
               {post.data.title}
             </h2>

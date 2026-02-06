@@ -13,8 +13,7 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
   <section class="mb-16">
     <h1 class="text-4xl font-bold mb-4">Hey, I'm Noah.</h1>
     <p class="text-lg text-text-muted leading-relaxed max-w-2xl">
-      I'm a software engineer who likes building things for the web.
-      This is my corner of the internet — a place for writing, projects, and ideas.
+      I'm an IT engineer who plays with AI.
     </p>
   </section>
 
@@ -27,6 +26,9 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         {posts.map((post) => (
           <li>
             <a href={`${base}blog/${post.id}/`} class="group block">
+              {post.data.image && (
+                <img src={post.data.image} alt={post.data.title} class="w-full h-40 object-cover rounded-lg mb-3" />
+              )}
               <h3 class="text-lg font-medium text-text group-hover:text-accent transition-colors">
                 {post.data.title}
               </h3>

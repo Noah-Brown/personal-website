@@ -49,5 +49,13 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
         &copy; {new Date().getFullYear()} Noah Brown. All rights reserved.
       </div>
     </footer>
+    <script>
+      document.querySelectorAll('a[href^="http"]').forEach(link => {
+        if (!link.hostname.includes(location.hostname)) {
+          link.setAttribute('target', '_blank');
+          link.setAttribute('rel', 'noopener noreferrer');
+        }
+      });
+    </script>
   </body>
 </html>

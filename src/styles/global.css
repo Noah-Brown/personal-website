@@ -2,13 +2,13 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-bg: #0a0a0a;
-  --color-surface: #18181b;
-  --color-text: #f4f4f5;
-  --color-text-muted: #a1a1aa;
-  --color-accent: #60a5fa;
-  --color-accent-hover: #93bbfd;
-  --color-border: #27272a;
+  --color-bg: #1a1f16;
+  --color-surface: #252b1f;
+  --color-text: #e8e4d9;
+  --color-text-muted: #a09e8a;
+  --color-accent: #b8a04a;
+  --color-accent-hover: #d4bc5e;
+  --color-border: #353d2c;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }

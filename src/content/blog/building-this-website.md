@@ -20,12 +20,12 @@ I now feel empowered to turn my ideas into software. The tools are now at a poin
 This site was entirely written by Claude Code and published to my personal Github. It took about 45 minutes from sitting down at my keyboard and cracking a White Monster to having a working prototype hosted on github pages. Another hour or so after purchasing my domain to have the site live at noahbrown.io. While DNS was propogating, I wrote this article. 
 
 <figure>
-    <img src="/personal-website/images/design-decisions.png" alt="Selecting Requirements" />
+    <img src="/images/design-decisions.png" alt="Selecting Requirements" />
     <figcaption>Claude lets me make the design decisions.</figcaption>
 </figure>
 
 <figure>
-    <img src="/personal-website/images/css-decision.png" />
+    <img src="/images/css-decision.png" />
     <figcaption>Claude lets me make the design decisions.</figcaption>
 </figure>
 

@@ -1,0 +1,53 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Personal website and blog' } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+  </head>
+  <body class="bg-bg text-text font-sans min-h-screen flex flex-col">
+    <header class="border-b border-border">
+      <nav class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a href={`${base}`} class="text-lg font-semibold text-text hover:text-accent transition-colors">
+          Noah Brown
+        </a>
+        <div class="flex gap-6 text-sm">
+          <a href={`${base}`} class="text-text-muted hover:text-accent transition-colors">Home</a>
+          <a href={`${base}blog/`} class="text-text-muted hover:text-accent transition-colors">Blog</a>
+          <a href={`${base}about/`} class="text-text-muted hover:text-accent transition-colors">About</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="flex-1 max-w-3xl mx-auto px-6 py-12 w-full">
+      <slot />
+    </main>
+
+    <footer class="border-t border-border">
+      <div class="max-w-3xl mx-auto px-6 py-6 text-sm text-text-muted">
+        &copy; {new Date().getFullYear()} Noah Brown. All rights reserved.
+      </div>
+    </footer>
+  </body>
+</html>

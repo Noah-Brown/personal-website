@@ -29,7 +29,6 @@ Claude walked me through the pros and cons of different tech stacks, asked me qu
 
 <figure>
     <img src="/images/css-decision.png" />
-    <figcaption>Claude lets me make the design decisions.</figcaption>
 </figure>
 
 

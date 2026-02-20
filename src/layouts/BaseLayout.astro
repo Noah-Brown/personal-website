@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { getCollection } from 'astro:content';
 
 interface Props {
   title: string;
@@ -18,6 +19,15 @@ const {
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
+
+// Dynamic sidebar counts
+const allPosts = await getCollection('blog');
+const sidebarCategories = ['infrastructure', 'automation', 'networking', 'ai-tools'];
+const tagCounts: Record<string, number> = {};
+for (const cat of sidebarCategories) {
+  tagCounts[cat] = allPosts.filter(p => p.data.tags.includes(cat)).length;
+}
+const totalPosts = allPosts.length;
 ---
 
 <!doctype html>
@@ -107,24 +117,16 @@ const currentPath = Astro.url.pathname;
             currentPath === '/' ? 'text-accent bg-[rgba(0,212,255,0.06)] border-accent' : 'text-text-dim border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright'
           ]}>
             <span class:list={['text-[10px] shrink-0', currentPath === '/' ? 'text-accent' : 'text-text-muted']}>{currentPath === '/' ? '>' : '\u2014'}</span>
-            all posts <span class="ml-auto text-[11px] text-text-muted">6</span>
+            all posts <span class="ml-auto text-[11px] text-text-muted">{totalPosts}</span>
           </a>
-          <a href="/blog/?tag=infrastructure" class="flex items-center gap-2 py-1 px-4 font-mono text-[13px] text-text-dim no-underline transition-all border-l-2 border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright">
-            <span class="text-[10px] text-text-muted shrink-0">&mdash;</span>
-            infrastructure <span class="ml-auto text-[11px] text-text-muted">2</span>
-          </a>
-          <a href="/blog/?tag=automation" class="flex items-center gap-2 py-1 px-4 font-mono text-[13px] text-text-dim no-underline transition-all border-l-2 border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright">
-            <span class="text-[10px] text-text-muted shrink-0">&mdash;</span>
-            automation <span class="ml-auto text-[11px] text-text-muted">1</span>
-          </a>
-          <a href="/blog/?tag=networking" class="flex items-center gap-2 py-1 px-4 font-mono text-[13px] text-text-dim no-underline transition-all border-l-2 border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright">
-            <span class="text-[10px] text-text-muted shrink-0">&mdash;</span>
-            networking <span class="ml-auto text-[11px] text-text-muted">2</span>
-          </a>
-          <a href="/blog/?tag=ai-tools" class="flex items-center gap-2 py-1 px-4 font-mono text-[13px] text-text-dim no-underline transition-all border-l-2 border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright">
-            <span class="text-[10px] text-text-muted shrink-0">&mdash;</span>
-            ai-tools <span class="ml-auto text-[11px] text-text-muted">1</span>
-          </a>
+          {sidebarCategories.map((cat) => (
+            tagCounts[cat] > 0 && (
+              <a href={`/blog/?tag=${cat}`} class="flex items-center gap-2 py-1 px-4 font-mono text-[13px] text-text-dim no-underline transition-all border-l-2 border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright">
+                <span class="text-[10px] text-text-muted shrink-0">&mdash;</span>
+                {cat} <span class="ml-auto text-[11px] text-text-muted">{tagCounts[cat]}</span>
+              </a>
+            )
+          ))}
         </div>
 
         <div class="mb-6">

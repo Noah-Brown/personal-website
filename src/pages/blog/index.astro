@@ -11,6 +11,12 @@ function formatDate(date: Date) {
   const d = String(date.getDate()).padStart(2, '0');
   return `${y}.${m}.${d}`;
 }
+
+function readTime(body: string | undefined) {
+  if (!body) return '1 min';
+  const words = body.trim().split(/\s+/).length;
+  return `${Math.max(1, Math.ceil(words / 230))} min`;
+}
 ---
 
 <BaseLayout
@@ -43,7 +49,7 @@ function formatDate(date: Date) {
         <div class="font-mono text-[11px] text-text-dim">
           {post.data.tags[0] && <><span class="text-magenta">#</span>{post.data.tags[0]}</>}
         </div>
-        <div class="font-mono text-[11px] text-text-muted text-right">4 min</div>
+        <div class="font-mono text-[11px] text-text-muted text-right">{readTime(post.body)}</div>
       </a>
     ))
   )}

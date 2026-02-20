@@ -1,8 +1,8 @@
 ---
 title: "You Can Build a Website for Less Than a Dinner at Chili's"
-description: "Why blogs could be great again."
+description: "Why blogs could be great again. The case for owning your corner of the web."
 date: 2026-02-06T12:00:00-05:00
-tags: ["claude-code","projects","social-media"]
+tags: ["infrastructure", "claude-code", "projects"]
 image: "/images/florida.png"
 ---
 

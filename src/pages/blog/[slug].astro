@@ -12,19 +12,32 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+function formatDate(date: Date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}.${m}.${d}`;
+}
 ---
 
-<BaseLayout title={`${post.data.title} — Noah Brown`} description={post.data.description}>
-  <article>
+<BaseLayout
+  title={`${post.data.title} — Noah Brown`}
+  description={post.data.description}
+  breadcrumb={`~<span class="text-border-bright mx-0.5">/</span>blog<span class="text-border-bright mx-0.5">/</span><span class="text-accent">${post.id}</span>`}
+  breadcrumbMeta={formatDate(post.data.date)}
+  activeTab="home"
+>
+  <article class="max-w-[60ch]">
     <header class="mb-10">
-      <h1 class="text-4xl font-bold mb-3">{post.data.title}</h1>
-      <time class="text-sm text-text-muted" datetime={post.data.date.toISOString()}>
-        {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-      </time>
+      <h1 class="font-display text-[28px] font-bold text-heading leading-[1.2] mb-3">{post.data.title}</h1>
+      <div class="font-mono text-[12px] text-text-muted mb-4">
+        {formatDate(post.data.date)}
+      </div>
       {post.data.tags.length > 0 && (
-        <div class="flex gap-2 mt-4">
+        <div class="flex gap-2">
           {post.data.tags.map((tag) => (
-            <span class="text-xs px-2 py-0.5 rounded-full bg-surface text-text-muted border border-border">
+            <span class="font-mono text-[10px] px-2 py-0.5 border border-border rounded-sm text-text-dim">
               {tag}
             </span>
           ))}
@@ -32,7 +45,16 @@ const { Content } = await render(post);
       )}
     </header>
 
-    <div class="prose prose-invert prose-zinc max-w-none prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-headings:text-text prose-p:text-text-muted prose-li:text-text-muted prose-strong:text-text prose-code:text-accent">
+    <div class="prose prose-invert max-w-none
+                prose-headings:font-display prose-headings:text-heading prose-headings:font-bold
+                prose-h2:text-[22px] prose-h3:text-[16px]
+                prose-p:font-body prose-p:text-[15px] prose-p:text-text-dim prose-p:leading-[1.8]
+                prose-li:font-body prose-li:text-text-dim
+                prose-strong:text-heading
+                prose-a:text-accent prose-a:no-underline hover:prose-a:underline
+                prose-code:font-mono prose-code:text-accent prose-code:text-[13px]
+                prose-pre:bg-surface prose-pre:border prose-pre:border-border prose-pre:font-mono
+                prose-img:rounded prose-img:border prose-img:border-border">
       <Content />
     </div>
   </article>

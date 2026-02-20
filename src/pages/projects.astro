@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = [
+  {
+    pid: '001',
+    name: 'Homelab Ansible Collection',
+    status: 'running',
+    featured: true,
+    tags: ['ansible', 'yaml', 'linux'],
+    description: 'A growing collection of battle-tested Ansible playbooks for homelab infrastructure. Covers firewall configuration, monitoring setup, backup automation, and service deployment across multiple hosts.',
+    meta: [
+      { label: 'started', value: '2025.06' },
+      { label: 'commits', value: '147' },
+      { label: 'uptime', value: '8 months' },
+    ],
+    links: [
+      { text: 'github', href: 'https://github.com/noah-brown' },
+      { text: 'blog post', href: '/blog/' },
+    ],
+  },
+  {
+    pid: '002',
+    name: 'noahbrown.io',
+    status: 'running',
+    featured: false,
+    tags: ['astro', 'html/css', 'js'],
+    description: 'This site. A terminal-inspired personal blog built with a custom design system. Dark mode, monospace everything, zero JavaScript frameworks.',
+    meta: [
+      { label: 'started', value: '2025.12' },
+      { label: 'posts', value: '6' },
+    ],
+    links: [
+      { text: 'github', href: 'https://github.com/noah-brown' },
+      { text: 'live site', href: '/' },
+    ],
+  },
+  {
+    pid: '003',
+    name: 'Budget Monitoring Stack',
+    status: 'running',
+    featured: false,
+    tags: ['grafana', 'prometheus', 'docker'],
+    description: 'Full observability for a homelab on a shoestring. Grafana + Prometheus + node_exporter + Alertmanager, all containerized and managed with Ansible.',
+    meta: [
+      { label: 'started', value: '2025.10' },
+      { label: 'cost', value: '$4.50/mo' },
+    ],
+    links: [
+      { text: 'github', href: 'https://github.com/noah-brown' },
+      { text: 'blog post', href: '/blog/' },
+    ],
+  },
+  {
+    pid: '004',
+    name: 'Home Network Overhaul',
+    status: 'complete',
+    featured: false,
+    tags: ['pfsense', 'vlans', 'unifi'],
+    description: 'Replaced a consumer router with pfSense + managed switch + UniFi APs. Full VLAN segmentation, guest network isolation, and proper firewall rules. Documented the whole migration.',
+    meta: [
+      { label: 'completed', value: '2025.12' },
+      { label: 'vlans', value: '4' },
+    ],
+    links: [
+      { text: 'blog post', href: '/blog/' },
+    ],
+  },
+  {
+    pid: '005',
+    name: 'Runbook Generator',
+    status: 'archived',
+    featured: false,
+    tags: ['python', 'claude-api'],
+    description: 'A CLI tool that takes Ansible playbooks and generates human-readable runbook documentation using Claude\'s API. Proof of concept — worked well enough to write a blog post about it.',
+    meta: [
+      { label: 'completed', value: '2025.11' },
+      { label: 'status', value: 'proof of concept' },
+    ],
+    links: [
+      { text: 'github', href: 'https://github.com/noah-brown' },
+      { text: 'blog post', href: '/blog/' },
+    ],
+  },
+];
+
+function statusColor(status: string) {
+  if (status === 'running') return { dot: 'bg-green shadow-[0_0_6px_rgba(34,197,94,0.4)]', text: 'text-green' };
+  if (status === 'complete') return { dot: 'bg-accent', text: 'text-accent' };
+  return { dot: 'bg-text-muted', text: 'text-text-muted' };
+}
+---
+
+<BaseLayout
+  title="Projects — Noah Brown"
+  description="Things Noah Brown has built, maintained, or contributed to."
+  breadcrumb={`~<span class="text-border-bright mx-0.5">/</span><span class="text-accent">projects</span>`}
+  breadcrumbMeta="ps aux | grep noah"
+  activeTab="projects"
+>
+  {/* Header */}
+  <div class="mb-6 pb-4 border-b border-border">
+    <h1 class="font-display text-[24px] font-bold text-heading mb-2">Running Processes</h1>
+    <p class="text-[13px] text-text-dim">Things I've built, maintained, or contributed to. Sorted by status.</p>
+  </div>
+
+  {/* Filter bar */}
+  <div class="flex gap-2 mb-6">
+    <button class="font-mono text-[11px] px-3 py-1 border border-accent rounded-sm text-accent bg-accent-glow cursor-pointer">all</button>
+    <button class="font-mono text-[11px] px-3 py-1 border border-border rounded-sm text-text-dim cursor-pointer hover:border-accent hover:text-accent transition-all">running</button>
+    <button class="font-mono text-[11px] px-3 py-1 border border-border rounded-sm text-text-dim cursor-pointer hover:border-accent hover:text-accent transition-all">complete</button>
+    <button class="font-mono text-[11px] px-3 py-1 border border-border rounded-sm text-text-dim cursor-pointer hover:border-accent hover:text-accent transition-all">archived</button>
+  </div>
+
+  {/* Project cards */}
+  <div class="flex flex-col gap-4">
+    {projects.map((project) => {
+      const sc = statusColor(project.status);
+      return (
+        <div class:list={[
+          'border rounded overflow-hidden transition-all duration-[250ms] hover:border-accent hover:shadow-[0_0_24px_rgba(0,212,255,0.12),inset_0_0_24px_rgba(0,212,255,0.02)]',
+          project.featured ? 'border-border-bright relative' : 'border-border'
+        ]}>
+          {project.featured && (
+            <div class="absolute inset-0 rounded bg-gradient-to-br from-[rgba(0,212,255,0.03)] to-transparent pointer-events-none"></div>
+          )}
+
+          {/* Card top */}
+          <div class="px-4 py-3 bg-surface-raised border-b border-border flex justify-between items-center flex-wrap gap-2">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-[11px] text-text-muted">PID {project.pid}</span>
+              <div class={`flex items-center gap-1 font-mono text-[11px] tracking-[0.05em] ${sc.text}`}>
+                <span class={`w-1.5 h-1.5 rounded-full ${sc.dot}`}></span>
+                {project.status}
+              </div>
+              {project.featured && (
+                <span class="font-mono text-[10px] tracking-[0.1em] text-warn bg-[rgba(255,184,0,0.1)] border border-[rgba(255,184,0,0.2)] px-1.5 py-px rounded-sm">&#9733; FEATURED</span>
+              )}
+            </div>
+            <div class="flex gap-2">
+              {project.tags.map((tag) => (
+                <span class="font-mono text-[10px] px-1.5 py-0.5 border border-border rounded-sm text-text-muted">{tag}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Card body */}
+          <div class="p-4">
+            <h2 class="font-display text-[17px] font-bold text-heading mb-2">{project.name}</h2>
+            <p class="text-[13px] text-text-dim leading-[1.6] mb-3 max-w-[60ch]">{project.description}</p>
+            <div class="flex gap-5 font-mono text-[11px] flex-wrap">
+              {project.meta.map((m) => (
+                <div class="flex items-center gap-1">
+                  <span class="text-text-muted">{m.label}:</span>
+                  <span class="text-text-dim">{m.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Card footer */}
+          <div class="px-4 py-2 bg-surface border-t border-border flex gap-3 items-center">
+            {project.links.map((link, i) => (
+              <>
+                {i > 0 && <span class="text-border-bright text-[11px]">|</span>}
+                <a href={link.href} class="font-mono text-[11px] text-accent no-underline flex items-center gap-1 hover:drop-shadow-[0_0_8px_rgba(0,212,255,0.12)] transition-all">
+                  &rarr; {link.text}
+                </a>
+              </>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</BaseLayout>

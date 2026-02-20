@@ -1,30 +1,128 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const skills = [
+  { name: 'Ansible', desc: 'Configuration management & automation', bars: 5, color: '' },
+  { name: 'Linux Admin', desc: 'Ubuntu, CentOS, RHEL, Debian', bars: 5, color: '' },
+  { name: 'Firewalls', desc: 'pfSense, UFW, iptables, ACLs', bars: 4, color: '' },
+  { name: 'Routing', desc: 'VLANs, BGP basics, network design', bars: 4, color: 'warn' },
+  { name: 'WiFi', desc: 'Site surveys, UniFi, Aruba, troubleshooting', bars: 4, color: '' },
+  { name: 'Project Mgmt', desc: 'Scoping, documentation, coordination', bars: 3, color: 'mag' },
+  { name: 'AI Tools', desc: 'Claude, prompt engineering, automation', bars: 3, color: 'mag' },
+];
+
+const interests = ['golf', 'cooking', 'reading', 'home automation', 'mechanical keyboards', 'open source'];
 ---
 
-<BaseLayout title="About — Noah Brown" description="About Noah Brown — software engineer and builder.">
-  <h1 class="text-4xl font-bold mb-8">About Me</h1>
+<BaseLayout
+  title="About — Noah Brown"
+  description="About Noah Brown — IT engineer who enjoys building things."
+  breadcrumb={`~<span class="text-border-bright mx-0.5">/</span><span class="text-accent">about</span>`}
+  breadcrumbMeta="man noahbrown"
+  activeTab="about"
+>
+  <div class="max-w-[680px]">
+    {/* Man page header */}
+    <div class="flex justify-between items-baseline pb-3 border-b border-border-bright mb-8">
+      <div class="font-display text-[15px] font-bold text-heading uppercase tracking-[0.06em]">noahbrown(1)</div>
+      <div class="font-mono text-[12px] text-text-muted">User Manual</div>
+    </div>
 
-  <div class="prose prose-invert prose-zinc max-w-none prose-a:text-accent prose-a:no-underline hover:prose-a:underline">
-    <p>
-      Hi, I'm <strong>Noah Brown</strong> — an IT engineer who enjoys building things.
-    </p>
+    {/* NAME */}
+    <section class="mb-8">
+      <h2 class="font-display text-[14px] font-bold text-heading uppercase tracking-[0.1em] mb-3 pb-2 border-b border-border before:content-['//_'] before:text-accent">Name</h2>
+      <div class="font-body text-[14px] text-text-dim leading-[1.8]">
+        <strong class="text-heading font-semibold">Noah Brown</strong> &mdash; IT engineer who enjoys building things
+      </div>
+    </section>
 
-    <p>
-      I'm interested in automating boring things so I can play more golf. 
-      When I'm not doing either of those things I am probably reading, cooking, or playing.
-    </p>
+    {/* SYNOPSIS */}
+    <section class="mb-8">
+      <h2 class="font-display text-[14px] font-bold text-heading uppercase tracking-[0.1em] mb-3 pb-2 border-b border-border before:content-['//_'] before:text-accent">Synopsis</h2>
+      <div class="font-mono text-[13px] text-accent">
+        noah [--infrastructure] [--automation] [--networking] [--golf]
+      </div>
+    </section>
 
-    <h2>What I work with</h2>
-    <ul>
-      <li>Ansible, Linux Administration</li>
-      <li>Firewalls, Routing, Network Security</li>
-      <li>WiFi, Project Management, AI tools</li>
-    </ul>
+    {/* DESCRIPTION */}
+    <section class="mb-8">
+      <h2 class="font-display text-[14px] font-bold text-heading uppercase tracking-[0.1em] mb-3 pb-2 border-b border-border before:content-['//_'] before:text-accent">Description</h2>
+      <div class="font-body text-[14px] text-text-dim leading-[1.8]">
+        <p class="mb-4">I'm interested in automating boring things so I can play more golf. When I'm not doing either of those things I am probably reading, cooking, or playing.</p>
+        <p>I build and manage infrastructure, write Ansible playbooks that people can actually maintain, and debug WiFi problems that make grown engineers cry. Currently focused on network security, observability tooling, and finding ways to make AI useful for operations work.</p>
+      </div>
+    </section>
 
-    <h2>Get in touch</h2>
-    <p>
-      You can find me on <a href="https://github.com/noah-brown">GitHub</a> or <a href="https://www.linkedin.com/in/noahjbrown/">LinkedIn</a> Feel free to reach out!
-    </p>
+    {/* SKILLS */}
+    <section class="mb-8">
+      <h2 class="font-display text-[14px] font-bold text-heading uppercase tracking-[0.1em] mb-3 pb-2 border-b border-border before:content-['//_'] before:text-accent">Skills</h2>
+
+      {/* Table header */}
+      <div class="grid grid-cols-[180px_1fr_80px] gap-3 px-3 py-2 font-mono text-[10px] tracking-[0.12em] uppercase text-text-muted border-b border-border-bright max-md:grid-cols-[140px_1fr] max-md:[&>:nth-child(3)]:hidden">
+        <div>process</div>
+        <div>description</div>
+        <div class="text-right">load</div>
+      </div>
+
+      {/* Skill rows */}
+      {skills.map((skill) => (
+        <div class="grid grid-cols-[180px_1fr_80px] gap-3 px-3 py-2 border-b border-border font-mono text-[13px] transition-[background] duration-150 items-center hover:bg-accent-glow max-md:grid-cols-[140px_1fr] max-md:[&>:nth-child(3)]:hidden">
+          <div class="text-heading font-medium">{skill.name}</div>
+          <div class="text-text-dim text-[12px]">{skill.desc}</div>
+          <div class="flex gap-0.5 justify-end">
+            {[1,2,3,4,5].map((i) => (
+              <div class:list={[
+                'w-2 h-3.5 rounded-[1px]',
+                i <= skill.bars
+                  ? skill.color === 'warn'
+                    ? 'bg-warn shadow-[0_0_4px_rgba(255,184,0,0.2)]'
+                    : skill.color === 'mag'
+                      ? 'bg-magenta shadow-[0_0_4px_rgba(168,85,247,0.2)]'
+                      : 'bg-accent shadow-[0_0_4px_rgba(0,212,255,0.12)]'
+                  : 'bg-border'
+              ]} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </section>
+
+    {/* INTERESTS */}
+    <section class="mb-8">
+      <h2 class="font-display text-[14px] font-bold text-heading uppercase tracking-[0.1em] mb-3 pb-2 border-b border-border before:content-['//_'] before:text-accent">Interests</h2>
+      <div class="flex flex-wrap gap-2 mt-3">
+        {interests.map((tag) => (
+          <span class="font-mono text-[11px] px-3 py-1 border border-border-bright rounded-sm text-text-dim transition-all hover:border-accent hover:text-accent hover:bg-accent-glow">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </section>
+
+    {/* SEE ALSO */}
+    <section class="mb-8">
+      <h2 class="font-display text-[14px] font-bold text-heading uppercase tracking-[0.1em] mb-3 pb-2 border-b border-border before:content-['//_'] before:text-accent">See Also</h2>
+      <div class="flex flex-col gap-2 mt-3">
+        <div class="flex gap-3 items-baseline font-mono text-[13px]">
+          <span class="text-text-muted min-w-[90px] shrink-0">github:</span>
+          <a href="https://github.com/noah-brown" class="text-accent no-underline border-b border-transparent hover:border-accent transition-[border-color]">github.com/noah-brown</a>
+        </div>
+        <div class="flex gap-3 items-baseline font-mono text-[13px]">
+          <span class="text-text-muted min-w-[90px] shrink-0">linkedin:</span>
+          <a href="https://www.linkedin.com/in/noahjbrown/" class="text-accent no-underline border-b border-transparent hover:border-accent transition-[border-color]">linkedin.com/in/noahjbrown</a>
+        </div>
+        <div class="flex gap-3 items-baseline font-mono text-[13px]">
+          <span class="text-text-muted min-w-[90px] shrink-0">email:</span>
+          <a href="mailto:noah@noahbrown.io" class="text-accent no-underline border-b border-transparent hover:border-accent transition-[border-color]">noah@noahbrown.io</a>
+        </div>
+      </div>
+    </section>
+
+    {/* Man page footer */}
+    <div class="mt-12 pt-4 border-t border-border font-mono text-[11px] text-text-muted flex justify-between">
+      <span>noahbrown.io</span>
+      <span>February 2026</span>
+      <span>noahbrown(1)</span>
+    </div>
   </div>
 </BaseLayout>

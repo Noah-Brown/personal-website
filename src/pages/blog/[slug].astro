@@ -28,9 +28,11 @@ function formatDate(date: Date) {
   breadcrumbMeta={formatDate(post.data.date)}
   activeTab="home"
 >
-  <article class="max-w-[60ch]">
+  <article class="max-w-[72ch]">
     <header class="mb-10">
-      <h1 class="font-display text-[28px] font-bold text-heading leading-[1.2] mb-3">{post.data.title}</h1>
+      <h1 class="font-display text-[28px] font-bold text-heading leading-[1.2] mb-3" set:html={
+        post.data.title.replace(/Worth It/i, '<span class="text-accent">Worth It</span><span class="inline-block w-[2px] h-[1.1em] bg-accent align-middle ml-1 animate-[blink_1s_step-end_infinite]"></span>')
+      } />
       <div class="font-mono text-[12px] text-text-muted mb-4">
         {formatDate(post.data.date)}
       </div>
@@ -48,8 +50,8 @@ function formatDate(date: Date) {
     <div class="prose prose-invert max-w-none
                 prose-headings:font-display prose-headings:text-heading prose-headings:font-bold
                 prose-h2:text-[22px] prose-h3:text-[16px]
-                prose-p:font-body prose-p:text-[15px] prose-p:text-text-dim prose-p:leading-[1.8]
-                prose-li:font-body prose-li:text-text-dim
+                prose-p:font-body prose-p:text-[15px] prose-p:text-text prose-p:leading-[1.8]
+                prose-li:font-body prose-li:text-text
                 prose-strong:text-heading
                 prose-a:text-accent prose-a:no-underline hover:prose-a:underline
                 prose-code:font-mono prose-code:text-accent prose-code:text-[13px]

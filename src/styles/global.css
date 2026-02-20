@@ -57,7 +57,7 @@ body::after {
 /* Section breaks */
 .section-break {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 14px;
   color: var(--color-text-dim);
   letter-spacing: 0.1em;
   text-transform: uppercase;

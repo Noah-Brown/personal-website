@@ -22,7 +22,7 @@ const currentPath = Astro.url.pathname;
 
 // Dynamic sidebar counts
 const allPosts = await getCollection('blog');
-const sidebarCategories = ['infrastructure', 'automation', 'networking', 'ai-tools'];
+const sidebarCategories = ['infrastructure', 'automation', 'networking', 'ai-tools', 'projects'];
 const tagCounts: Record<string, number> = {};
 for (const cat of sidebarCategories) {
   tagCounts[cat] = allPosts.filter(p => p.data.tags.includes(cat)).length;

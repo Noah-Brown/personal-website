@@ -62,6 +62,23 @@ const projects = [
       { text: 'github', href: 'https://github.com/Noah-Brown/Fantasy-Baseball-Draft-Tool' },
     ],
   },
+  {
+    pid: '005',
+    name: 'SD Legislature Tracker',
+    status: 'running',
+    featured: false,
+    tags: ['nextjs', 'python', 'legiscan'],
+    description: 'A civic tool that makes South Dakota\'s legislative process visually legible to citizens. Tracks ~350 bills through a pipeline view, diffs proposed bill text against existing statute law, and visualizes the state budget. Python ingestion pipeline syncs from LegiScan every 4 hours into SQLite; Next.js frontend deployed on Vercel.',
+    meta: [
+      { label: 'started', value: '2026.02' },
+      { label: 'commits', value: '12' },
+      { label: 'stack', value: 'Next.js / Python / SQLite' },
+    ],
+    links: [
+      { text: 'github', href: 'https://github.com/Noah-Brown/sdleg' },
+      { text: 'live site', href: 'https://sdleg.vercel.app' },
+    ],
+  },
 ];
 
 function statusColor(status: string) {

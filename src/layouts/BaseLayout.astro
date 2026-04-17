@@ -119,14 +119,19 @@ const totalPosts = allPosts.length;
             <span class:list={['text-[10px] shrink-0', currentPath === '/' ? 'text-accent' : 'text-text-muted']}>{currentPath === '/' ? '>' : '\u2014'}</span>
             all posts <span class="ml-auto text-[11px] text-text-muted">{totalPosts}</span>
           </a>
-          {sidebarCategories.map((cat) => (
-            tagCounts[cat] > 0 && (
-              <a href={`/blog/?tag=${cat}`} class="flex items-center gap-2 py-1 px-4 font-mono text-[13px] text-text-dim no-underline transition-all border-l-2 border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright">
-                <span class="text-[10px] text-text-muted shrink-0">&mdash;</span>
+          {sidebarCategories.map((cat) => {
+            if (tagCounts[cat] === 0) return null;
+            const isActive = currentPath === `/blog/tag/${cat}/` || currentPath === `/blog/tag/${cat}`;
+            return (
+              <a href={`/blog/tag/${cat}/`} class:list={[
+                'flex items-center gap-2 py-1 px-4 font-mono text-[13px] no-underline transition-all border-l-2',
+                isActive ? 'text-accent bg-[rgba(0,212,255,0.06)] border-accent' : 'text-text-dim border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright'
+              ]}>
+                <span class:list={['text-[10px] shrink-0', isActive ? 'text-accent' : 'text-text-muted']}>{isActive ? '>' : '\u2014'}</span>
                 {cat} <span class="ml-auto text-[11px] text-text-muted">{tagCounts[cat]}</span>
               </a>
-            )
-          ))}
+            );
+          })}
         </div>
 
         <div class="mb-6">

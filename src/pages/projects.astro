@@ -11,7 +11,7 @@ const projects = [
     description: 'A news aggregator that organizes news into ongoing narrative threads instead of isolated headlines. Full-stack app with a FastAPI backend, React Native mobile app, and Next.js web frontend. Uses Claude for extraction and classification, PostgreSQL + pgvector for storage and search.',
     meta: [
       { label: 'started', value: '2026.02' },
-      { label: 'commits', value: '172' },
+      { label: 'commits', value: '297' },
       { label: 'stack', value: 'FastAPI / React Native / Next.js' },
     ],
     links: [
@@ -27,7 +27,7 @@ const projects = [
     description: 'Automated weather forecasting and trading system for Kalshi temperature markets. Ingests NWP model data (GFS, GEFS), bias-corrects with live METAR observations, computes calibrated probabilities, and places orders via the Kalshi API.',
     meta: [
       { label: 'started', value: '2026.02' },
-      { label: 'commits', value: '23' },
+      { label: 'commits', value: '32' },
     ],
     links: [],
   },
@@ -40,7 +40,7 @@ const projects = [
     description: 'This site. A terminal-inspired personal blog built with Astro and a custom Cool Cathode design system. Monospace everything, zero JavaScript frameworks.',
     meta: [
       { label: 'started', value: '2026.02' },
-      { label: 'commits', value: '10' },
+      { label: 'commits', value: '24' },
     ],
     links: [
       { text: 'github', href: 'https://github.com/Noah-Brown/personal-website' },
@@ -50,7 +50,7 @@ const projects = [
   {
     pid: '004',
     name: 'Fantasy Baseball Draft Tool',
-    status: 'running',
+    status: 'inactive',
     featured: false,
     tags: ['python', 'streamlit', 'yahoo-api'],
     description: 'A Streamlit app for managing fantasy baseball auction and snake drafts. Uses Fangraphs Depth Charts projections with Yahoo Fantasy position eligibility. Supports 5x5 roto scoring, draft notes, and player search.',
@@ -71,13 +71,30 @@ const projects = [
     description: 'A civic tool that makes South Dakota\'s legislative process visually legible to citizens. Tracks ~350 bills through a pipeline view, diffs proposed bill text against existing statute law, and visualizes the state budget. Python ingestion pipeline syncs from LegiScan every 4 hours into SQLite; Next.js frontend deployed on Vercel.',
     meta: [
       { label: 'started', value: '2026.02' },
-      { label: 'commits', value: '12' },
+      { label: 'commits', value: '222' },
       { label: 'stack', value: 'Next.js / Python / SQLite' },
     ],
     links: [
       { text: 'github', href: 'https://github.com/Noah-Brown/sdleg' },
       { text: 'live site', href: 'https://sdleg.vercel.app' },
       { text: 'blog post', href: '/blog/sd-legislature-tracker/' },
+    ],
+  },
+  {
+    pid: '006',
+    name: 'Cutline',
+    status: 'running',
+    featured: false,
+    tags: ['python', 'fastapi', 'nextjs'],
+    description: 'A daily MLB grid trivia game. Each day you get a category (e.g. "Won NL MVP") and a 3×3 grid of 9 player names — some are real qualifiers, some are imposters designed to feel right but trip you up. FastAPI + async SQLAlchemy backend with a Next.js frontend, seeded from the Chadwick Bureau Lahman database.',
+    meta: [
+      { label: 'started', value: '2026.04' },
+      { label: 'commits', value: '29' },
+      { label: 'stack', value: 'FastAPI / Next.js / Postgres' },
+    ],
+    links: [
+      { text: 'github', href: 'https://github.com/Noah-Brown/cutline' },
+      { text: 'live site', href: 'https://cut-line.com' },
     ],
   },
 ];

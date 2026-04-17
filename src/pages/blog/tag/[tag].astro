@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = new Set<string>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) tags.add(tag);
+  }
+  return [...tags].map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((p) => p.data.tags.includes(tag))
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+
+function formatDate(date: Date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const d = String(date.getDate()).padStart(2, '0');
+  return `${y}.${m}.${d}`;
+}
+
+function readTime(body: string | undefined) {
+  if (!body) return '1 min';
+  const words = body.trim().split(/\s+/).length;
+  return `${Math.max(1, Math.ceil(words / 230))} min`;
+}
+---
+
+<BaseLayout
+  title={`#${tag} — Noah Brown`}
+  description={`Blog posts tagged #${tag}.`}
+  breadcrumb={`~<span class="text-border-bright mx-0.5">/</span>blog<span class="text-border-bright mx-0.5">/</span>tag<span class="text-border-bright mx-0.5">/</span><span class="text-accent">${tag}</span>`}
+  breadcrumbMeta={`${posts.length} ${posts.length === 1 ? 'entry' : 'entries'}`}
+  activeTab="home"
+>
+  {/* Post list header */}
+  <div class="grid grid-cols-[90px_1fr_110px_80px] gap-4 px-3 py-2 font-mono text-[10px] tracking-[0.12em] uppercase text-text-muted border-b border-border-bright mb-1 max-md:grid-cols-[70px_1fr] max-md:[&>:nth-child(3)]:hidden max-md:[&>:nth-child(4)]:hidden">
+    <div>date</div>
+    <div>title</div>
+    <div>topic</div>
+    <div class="text-right">read</div>
+  </div>
+
+  {posts.length === 0 ? (
+    <p class="text-text-muted py-4">No posts with this tag yet.</p>
+  ) : (
+    posts.map((post) => (
+      <a href={`/blog/${post.id}/`} class="grid grid-cols-[90px_1fr_110px_80px] gap-4 p-3 border-b border-border no-underline rounded-sm transition-all hover:bg-accent-glow hover:border-transparent hover:shadow-[inset_2px_0_0_var(--color-accent)] items-baseline max-md:grid-cols-[70px_1fr] max-md:[&>:nth-child(3)]:hidden max-md:[&>:nth-child(4)]:hidden">
+        <div class="font-mono text-[12px] text-text-muted">{formatDate(post.data.date)}</div>
+        <div class="flex flex-col gap-0.5">
+          <div class="font-body text-[14px] text-heading font-medium">{post.data.title}</div>
+          {post.data.description && (
+            <div class="text-[12px] text-text-dim leading-[1.5]">{post.data.description}</div>
+          )}
+        </div>
+        <div class="font-mono text-[11px] text-text-dim">
+          {post.data.tags[0] && <><span class="text-magenta">#</span>{post.data.tags[0]}</>}
+        </div>
+        <div class="font-mono text-[11px] text-text-muted text-right">{readTime(post.body)}</div>
+      </a>
+    ))
+  )}
+</BaseLayout>

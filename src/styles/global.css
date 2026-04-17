@@ -258,6 +258,17 @@ body::after {
 .sources-body strong {
   color: var(--color-accent);
 }
+.fn-back {
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: 13px;
+  transition: filter 0.15s;
+}
+.fn-back:hover {
+  filter: drop-shadow(0 0 6px rgba(92,224,255,0.6));
+}
 
 /* Responsive adjustments */
 @media (max-width: 640px) {

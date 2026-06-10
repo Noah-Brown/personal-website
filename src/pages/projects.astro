@@ -3,189 +3,93 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const projects = [
   {
-    pid: '001',
-    name: 'Threadline',
-    status: 'running',
-    featured: true,
-    tags: ['python', 'fastapi', 'react native'],
-    description: 'A news aggregator that organizes news into ongoing narrative threads instead of isolated headlines. Full-stack app with a FastAPI backend, React Native mobile app, and Next.js web frontend. Uses Claude for extraction and classification, PostgreSQL + pgvector for storage and search.',
-    meta: [
-      { label: 'started', value: '2026.02' },
-      { label: 'commits', value: '297' },
-      { label: 'stack', value: 'FastAPI / React Native / Next.js' },
-    ],
+    name: 'SD Legislature Tracker',
+    year: '2026',
+    stack: 'Next.js / Python / SQLite',
+    description: 'A civic tool that makes South Dakota’s legislative process legible to citizens — tracking ~350 bills, diffing proposed text against existing statute, and visualizing the state budget.',
     links: [
-      { text: 'live site', href: 'https://threadline.news' },
+      { text: 'Live site', href: 'https://sdleg.vercel.app' },
+      { text: 'GitHub', href: 'https://github.com/Noah-Brown/sdleg' },
+      { text: 'Blog post', href: '/blog/sd-legislature-tracker/' },
     ],
   },
   {
-    pid: '002',
-    name: 'Kalshi Weather Bot',
-    status: 'running',
-    featured: false,
-    tags: ['python', 'kalshi-api', 'weather'],
-    description: 'Automated weather forecasting and trading system for Kalshi temperature markets. Ingests NWP model data (GFS, GEFS), bias-corrects with live METAR observations, computes calibrated probabilities, and places orders via the Kalshi API.',
-    meta: [
-      { label: 'started', value: '2026.02' },
-      { label: 'commits', value: '32' },
-    ],
+    name: 'Threadline',
+    year: '2026',
+    status: 'Retired',
+    stack: 'FastAPI / React Native / Next.js',
+    description: 'A news aggregator that organizes stories into ongoing narrative threads instead of isolated headlines, using Claude for extraction and classification.',
     links: [],
   },
   {
-    pid: '003',
-    name: 'noahbrown.io',
-    status: 'running',
-    featured: false,
-    tags: ['astro', 'tailwind', 'typescript'],
-    description: 'This site. A terminal-inspired personal blog built with Astro and a custom Cool Cathode design system. Monospace everything, zero JavaScript frameworks.',
-    meta: [
-      { label: 'started', value: '2026.02' },
-      { label: 'commits', value: '24' },
-    ],
-    links: [
-      { text: 'github', href: 'https://github.com/Noah-Brown/personal-website' },
-      { text: 'live site', href: '/' },
-    ],
-  },
-  {
-    pid: '004',
-    name: 'Fantasy Baseball Draft Tool',
-    status: 'inactive',
-    featured: false,
-    tags: ['python', 'streamlit', 'yahoo-api'],
-    description: 'A Streamlit app for managing fantasy baseball auction and snake drafts. Uses Fangraphs Depth Charts projections with Yahoo Fantasy position eligibility. Supports 5x5 roto scoring, draft notes, and player search.',
-    meta: [
-      { label: 'started', value: '2026.01' },
-      { label: 'commits', value: '68' },
-    ],
-    links: [
-      { text: 'github', href: 'https://github.com/Noah-Brown/Fantasy-Baseball-Draft-Tool' },
-    ],
-  },
-  {
-    pid: '005',
-    name: 'SD Legislature Tracker',
-    status: 'running',
-    featured: false,
-    tags: ['nextjs', 'python', 'legiscan'],
-    description: 'A civic tool that makes South Dakota\'s legislative process visually legible to citizens. Tracks ~350 bills through a pipeline view, diffs proposed bill text against existing statute law, and visualizes the state budget. Python ingestion pipeline syncs from LegiScan every 4 hours into SQLite; Next.js frontend deployed on Vercel.',
-    meta: [
-      { label: 'started', value: '2026.02' },
-      { label: 'commits', value: '222' },
-      { label: 'stack', value: 'Next.js / Python / SQLite' },
-    ],
-    links: [
-      { text: 'github', href: 'https://github.com/Noah-Brown/sdleg' },
-      { text: 'live site', href: 'https://sdleg.vercel.app' },
-      { text: 'blog post', href: '/blog/sd-legislature-tracker/' },
-    ],
-  },
-  {
-    pid: '006',
     name: 'Cutline',
-    status: 'running',
-    featured: false,
-    tags: ['python', 'fastapi', 'nextjs'],
-    description: 'A daily MLB grid trivia game. Each day you get a category (e.g. "Won NL MVP") and a 3×3 grid of 9 player names — some are real qualifiers, some are imposters designed to feel right but trip you up. FastAPI + async SQLAlchemy backend with a Next.js frontend, seeded from the Chadwick Bureau Lahman database.',
-    meta: [
-      { label: 'started', value: '2026.04' },
-      { label: 'commits', value: '29' },
-      { label: 'stack', value: 'FastAPI / Next.js / Postgres' },
-    ],
+    year: '2026',
+    stack: 'FastAPI / Next.js / Postgres',
+    description: 'A daily MLB grid trivia game: nine player names, some real qualifiers, some imposters designed to feel right and trip you up.',
     links: [
-      { text: 'github', href: 'https://github.com/Noah-Brown/cutline' },
-      { text: 'live site', href: 'https://cut-line.com' },
+      { text: 'Live site', href: 'https://cut-line.com' },
+      { text: 'GitHub', href: 'https://github.com/Noah-Brown/cutline' },
+    ],
+  },
+  {
+    name: 'Kalshi Weather Bot',
+    year: '2026',
+    stack: 'Python / Kalshi API',
+    description: 'An automated forecasting and trading system for Kalshi temperature markets, blending NWP model data with live observations to compute calibrated probabilities.',
+    links: [],
+  },
+  {
+    name: 'noahbrown.io',
+    year: '2026',
+    stack: 'Astro / Tailwind',
+    description: 'This site — a quiet, essay-first home for writing and projects, with a parchment light mode and slate dark mode.',
+    links: [
+      { text: 'GitHub', href: 'https://github.com/Noah-Brown/personal-website' },
+    ],
+  },
+  {
+    name: 'Fantasy Baseball Draft Tool',
+    year: '2026',
+    stack: 'Python / Streamlit',
+    description: 'A Streamlit app for managing fantasy baseball auction and snake drafts, built on Fangraphs projections and Yahoo position eligibility.',
+    links: [
+      { text: 'GitHub', href: 'https://github.com/Noah-Brown/Fantasy-Baseball-Draft-Tool' },
     ],
   },
 ];
-
-function statusColor(status: string) {
-  if (status === 'running') return { dot: 'bg-green shadow-[0_0_6px_rgba(34,197,94,0.4)]', text: 'text-green' };
-  if (status === 'complete') return { dot: 'bg-accent', text: 'text-accent' };
-  return { dot: 'bg-text-muted', text: 'text-text-muted' };
-}
 ---
 
 <BaseLayout
   title="Projects — Noah Brown"
-  description="Things Noah Brown has built, maintained, or contributed to."
-  breadcrumb={`~<span class="text-border-bright mx-0.5">/</span><span class="text-accent">projects</span>`}
-  breadcrumbMeta="ps aux | grep noah"
-  activeTab="projects"
+  description="Things Noah Brown has built."
+  activeNav="projects"
 >
-  {/* Header */}
-  <div class="mb-6 pb-4 border-b border-border">
-    <h1 class="font-display text-[24px] font-bold text-heading mb-2">Running Processes</h1>
-    <p class="text-[13px] text-text-dim">Things I've built, maintained, or contributed to. Sorted by status.</p>
-  </div>
+  <h1 class="font-serif text-[28px] font-semibold text-heading mb-3">Projects</h1>
+  <p class="text-text-dim mb-10">
+    Small, useful things I've built — mostly to keep my opinions about software honest.
+  </p>
 
-  {/* Filter bar */}
-  <div class="flex gap-2 mb-6">
-    <button class="font-mono text-[11px] px-3 py-1 border border-accent rounded-sm text-accent bg-accent-glow cursor-pointer">all</button>
-    <button class="font-mono text-[11px] px-3 py-1 border border-border rounded-sm text-text-dim cursor-pointer hover:border-accent hover:text-accent transition-all">running</button>
-    <button class="font-mono text-[11px] px-3 py-1 border border-border rounded-sm text-text-dim cursor-pointer hover:border-accent hover:text-accent transition-all">complete</button>
-    <button class="font-mono text-[11px] px-3 py-1 border border-border rounded-sm text-text-dim cursor-pointer hover:border-accent hover:text-accent transition-all">archived</button>
-  </div>
-
-  {/* Project cards */}
-  <div class="flex flex-col gap-4">
-    {projects.map((project) => {
-      const sc = statusColor(project.status);
-      return (
-        <div class:list={[
-          'border rounded overflow-hidden transition-all duration-[250ms] hover:border-accent hover:shadow-[0_0_24px_rgba(0,212,255,0.12),inset_0_0_24px_rgba(0,212,255,0.02)]',
-          project.featured ? 'border-border-bright relative' : 'border-border'
-        ]}>
-          {project.featured && (
-            <div class="absolute inset-0 rounded bg-gradient-to-br from-[rgba(0,212,255,0.03)] to-transparent pointer-events-none"></div>
-          )}
-
-          {/* Card top */}
-          <div class="px-4 py-3 bg-surface-raised border-b border-border flex justify-between items-center flex-wrap gap-2">
-            <div class="flex items-center gap-3">
-              <span class="font-mono text-[11px] text-text-muted">PID {project.pid}</span>
-              <div class={`flex items-center gap-1 font-mono text-[11px] tracking-[0.05em] ${sc.text}`}>
-                <span class={`w-1.5 h-1.5 rounded-full ${sc.dot}`}></span>
-                {project.status}
-              </div>
-              {project.featured && (
-                <span class="font-mono text-[10px] tracking-[0.1em] text-warn bg-[rgba(255,184,0,0.1)] border border-[rgba(255,184,0,0.2)] px-1.5 py-px rounded-sm">&#9733; FEATURED</span>
-              )}
-            </div>
-            <div class="flex gap-2">
-              {project.tags.map((tag) => (
-                <span class="font-mono text-[10px] px-1.5 py-0.5 border border-border rounded-sm text-text-muted">{tag}</span>
-              ))}
-            </div>
-          </div>
-
-          {/* Card body */}
-          <div class="p-4">
-            <h2 class="font-display text-[17px] font-bold text-heading mb-2">{project.name}</h2>
-            <p class="text-[13px] text-text-dim leading-[1.6] mb-3 max-w-[60ch]">{project.description}</p>
-            <div class="flex gap-5 font-mono text-[11px] flex-wrap">
-              {project.meta.map((m) => (
-                <div class="flex items-center gap-1">
-                  <span class="text-text-muted">{m.label}:</span>
-                  <span class="text-text-dim">{m.value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Card footer */}
-          <div class="px-4 py-2 bg-surface border-t border-border flex gap-3 items-center">
-            {project.links.map((link, i) => (
-              <>
-                {i > 0 && <span class="text-border-bright text-[11px]">|</span>}
-                <a href={link.href} class="font-mono text-[11px] text-accent no-underline flex items-center gap-1 hover:drop-shadow-[0_0_8px_rgba(0,212,255,0.12)] transition-all">
-                  &rarr; {link.text}
-                </a>
-              </>
-            ))}
-          </div>
+  <ul class="list-none p-0 m-0 space-y-10">
+    {projects.map((project) => (
+      <li>
+        {project.links[0] ? (
+          <a href={project.links[0].href} class="text-heading text-[20px] no-underline hover:text-accent transition-colors">
+            {project.name}
+          </a>
+        ) : (
+          <span class="text-heading text-[20px]">{project.name}</span>
+        )}
+        <p class="text-[16px] text-text-dim leading-[1.7] mt-1">{project.description}</p>
+        <div class="font-sans text-[13px] text-text-muted mt-1.5">
+          {project.year} &middot; {project.status && <>{project.status} &middot; </>}{project.stack}
+          {project.links.map((link) => (
+            <>
+              {' '}&middot;{' '}
+              <a href={link.href} class="text-text-muted underline decoration-border-bright underline-offset-2 hover:text-accent transition-colors">{link.text}</a>
+            </>
+          ))}
         </div>
-      );
-    })}
-  </div>
+      </li>
+    ))}
+  </ul>
 </BaseLayout>

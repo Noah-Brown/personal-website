@@ -1,33 +1,26 @@
 ---
 import '../styles/global.css';
-import { getCollection } from 'astro:content';
+import '@fontsource-variable/source-serif-4';
+import '@fontsource-variable/inter';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props {
   title: string;
   description?: string;
-  breadcrumb?: string;
-  breadcrumbMeta?: string;
-  activeTab?: string;
+  activeNav?: string;
 }
 
 const {
   title,
-  description = 'Personal website and blog by Noah Brown — IT engineer writing about infrastructure, automation, and networking.',
-  breadcrumb = '~',
-  breadcrumbMeta = '',
-  activeTab = 'home',
+  description = 'Noah Brown — AI solutions engineer writing about building human-centered AI.',
+  activeNav = '',
 } = Astro.props;
 
-const currentPath = Astro.url.pathname;
-
-// Dynamic sidebar counts
-const allPosts = await getCollection('blog');
-const sidebarCategories = ['infrastructure', 'automation', 'networking', 'ai-tools', 'projects'];
-const tagCounts: Record<string, number> = {};
-for (const cat of sidebarCategories) {
-  tagCounts[cat] = allPosts.filter(p => p.data.tags.includes(cat)).length;
-}
-const totalPosts = allPosts.length;
+const navLinks = [
+  { label: 'About', href: '/about/', key: 'about' },
+  { label: 'Projects', href: '/projects/', key: 'projects' },
+  { label: 'Writing', href: '/blog/', key: 'writing' },
+];
 ---
 
 <!doctype html>
@@ -49,14 +42,18 @@ const totalPosts = allPosts.length;
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="theme-color" content="#08090e" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <meta name="theme-color" content="#faf7f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#23262b" media="(prefers-color-scheme: dark)" />
     <title>{title}</title>
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem('theme');
+        const theme = stored === 'light' || stored === 'dark'
+          ? stored
+          : (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -65,120 +62,40 @@ const totalPosts = allPosts.length;
       "author": {
         "@type": "Person",
         "name": "Noah Brown",
-        "jobTitle": "IT Engineer"
+        "jobTitle": "AI Solutions Engineer"
       }
     })} />
   </head>
-  <body class="bg-bg text-text font-body text-[15px] leading-[1.7] overflow-x-hidden min-h-screen">
-    <div class="grid grid-cols-[220px_1fr] grid-rows-[auto_1fr] min-h-screen max-md:grid-cols-[1fr]">
+  <body class="bg-bg text-text font-serif text-[18px] leading-[1.75] min-h-screen">
+    <div class="mx-auto max-w-[68ch] px-5 py-10 md:py-16">
 
-      {/* ===== TOP BAR ===== */}
-      <div class="col-span-full bg-surface-raised border-b border-border px-4 max-md:px-3 flex items-center justify-between h-[42px]">
-        <div class="flex items-center gap-4 max-md:gap-2">
-          <a href="/" class="font-display text-[14px] font-bold text-accent tracking-[0.03em] no-underline hover:drop-shadow-[0_0_12px_rgba(0,212,255,0.12)] transition-all">
-            noahbrown.io
-          </a>
-          <div class="w-px h-4 bg-border"></div>
-          <nav class="flex">
-            <a href="/" class:list={[
-              'font-mono text-[12px] px-4 max-md:px-2 py-2 tracking-[0.02em] no-underline transition-all border-b-2',
-              activeTab === 'home'
-                ? 'text-accent border-accent bg-[rgba(0,212,255,0.05)]'
-                : 'text-text-muted border-transparent hover:text-text-dim hover:bg-accent-glow'
-            ]}>home</a>
-            <a href="/about/" class:list={[
-              'font-mono text-[12px] px-4 max-md:px-2 py-2 tracking-[0.02em] no-underline transition-all border-b-2',
-              activeTab === 'about'
-                ? 'text-accent border-accent bg-[rgba(0,212,255,0.05)]'
-                : 'text-text-muted border-transparent hover:text-text-dim hover:bg-accent-glow'
-            ]}>about</a>
-            <a href="/projects/" class:list={[
-              'font-mono text-[12px] px-4 max-md:px-2 py-2 tracking-[0.02em] no-underline transition-all border-b-2',
-              activeTab === 'projects'
-                ? 'text-accent border-accent bg-[rgba(0,212,255,0.05)]'
-                : 'text-text-muted border-transparent hover:text-text-dim hover:bg-accent-glow'
-            ]}>projects</a>
-          </nav>
-        </div>
-        <div class="flex items-center gap-3 max-md:hidden">
-          <div class="flex items-center gap-2 font-mono text-[11px] text-text-muted">
-            <div class="w-1.5 h-1.5 rounded-full bg-green shadow-[0_0_6px_rgba(34,197,94,0.4)] animate-[pulse-dot_2s_ease-in-out_infinite]"></div>
-            <span>online</span>
-          </div>
-        </div>
-      </div>
+      <header class="mb-14 flex items-baseline justify-between gap-4 flex-wrap">
+        <a href="/" class="font-serif text-[19px] font-semibold text-heading no-underline">Noah Brown</a>
+        <nav class="flex items-center gap-5 font-sans text-[14px]">
+          {navLinks.map((link) => (
+            <a
+              href={link.href}
+              class:list={[
+                'no-underline transition-colors',
+                activeNav === link.key
+                  ? 'text-heading'
+                  : 'text-text-dim hover:text-heading',
+              ]}
+            >{link.label}</a>
+          ))}
+          <ThemeToggle />
+        </nav>
+      </header>
 
-      {/* ===== SIDEBAR ===== */}
-      <aside class="bg-surface border-r border-border py-4 overflow-y-auto flex flex-col max-md:hidden">
-        <div class="mb-6">
-          <div class="font-mono text-[10px] tracking-[0.14em] uppercase text-text-muted px-4 mb-2">explorer</div>
-          <a href="/" class:list={[
-            'flex items-center gap-2 py-1 px-4 font-mono text-[13px] no-underline transition-all border-l-2',
-            currentPath === '/' ? 'text-accent bg-[rgba(0,212,255,0.06)] border-accent' : 'text-text-dim border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright'
-          ]}>
-            <span class:list={['text-[10px] shrink-0', currentPath === '/' ? 'text-accent' : 'text-text-muted']}>{currentPath === '/' ? '>' : '\u2014'}</span>
-            all posts <span class="ml-auto text-[11px] text-text-muted">{totalPosts}</span>
-          </a>
-          {sidebarCategories.map((cat) => {
-            if (tagCounts[cat] === 0) return null;
-            const isActive = currentPath === `/blog/tag/${cat}/` || currentPath === `/blog/tag/${cat}`;
-            return (
-              <a href={`/blog/tag/${cat}/`} class:list={[
-                'flex items-center gap-2 py-1 px-4 font-mono text-[13px] no-underline transition-all border-l-2',
-                isActive ? 'text-accent bg-[rgba(0,212,255,0.06)] border-accent' : 'text-text-dim border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright'
-              ]}>
-                <span class:list={['text-[10px] shrink-0', isActive ? 'text-accent' : 'text-text-muted']}>{isActive ? '>' : '\u2014'}</span>
-                {cat} <span class="ml-auto text-[11px] text-text-muted">{tagCounts[cat]}</span>
-              </a>
-            );
-          })}
-        </div>
+      <main>
+        <slot />
+      </main>
 
-        <div class="mb-6">
-          <div class="font-mono text-[10px] tracking-[0.14em] uppercase text-text-muted px-4 mb-2">pages</div>
-          <a href="/about/" class:list={[
-            'flex items-center gap-2 py-1 px-4 font-mono text-[13px] no-underline transition-all border-l-2',
-            currentPath.startsWith('/about') ? 'text-accent bg-[rgba(0,212,255,0.06)] border-accent' : 'text-text-dim border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright'
-          ]}>
-            <span class:list={['text-[10px] shrink-0', currentPath.startsWith('/about') ? 'text-accent' : 'text-text-muted']}>{currentPath.startsWith('/about') ? '>' : '\u2014'}</span>
-            about
-          </a>
-          <a href="/projects/" class:list={[
-            'flex items-center gap-2 py-1 px-4 font-mono text-[13px] no-underline transition-all border-l-2',
-            currentPath.startsWith('/projects') ? 'text-accent bg-[rgba(0,212,255,0.06)] border-accent' : 'text-text-dim border-transparent hover:text-text hover:bg-accent-glow hover:border-border-bright'
-          ]}>
-            <span class:list={['text-[10px] shrink-0', currentPath.startsWith('/projects') ? 'text-accent' : 'text-text-muted']}>{currentPath.startsWith('/projects') ? '>' : '\u2014'}</span>
-            projects
-          </a>
-        </div>
-
-        <div class="flex-1"></div>
-
-        <div class="px-4 pt-3 border-t border-border">
-          <div class="font-display text-[12px] font-bold text-text">Noah Brown</div>
-          <div class="font-mono text-[11px] text-text-muted mt-0.5">IT Engineer</div>
-          <div class="flex gap-2 mt-2">
-            <a href="https://github.com/noah-brown" class="font-mono text-[11px] text-text-dim no-underline px-1.5 py-0.5 border border-border rounded-sm hover:border-accent hover:text-accent hover:bg-accent-glow transition-all">github</a>
-            <a href="https://www.linkedin.com/in/noahjbrown/" class="font-mono text-[11px] text-text-dim no-underline px-1.5 py-0.5 border border-border rounded-sm hover:border-accent hover:text-accent hover:bg-accent-glow transition-all">linkedin</a>
-          </div>
-        </div>
-      </aside>
-
-      {/* ===== MAIN CONTENT ===== */}
-      <div class="bg-bg overflow-y-auto flex flex-col">
-        {/* Breadcrumb bar */}
-        <div class="px-6 py-2 border-b border-border flex justify-between items-center bg-surface shrink-0">
-          <div class="font-mono text-[12px] text-text-muted" set:html={breadcrumb} />
-          {breadcrumbMeta && (
-            <div class="font-mono text-[11px] text-text-muted">{breadcrumbMeta}</div>
-          )}
-        </div>
-
-        {/* Page content */}
-        <main class="flex-1 p-8 max-md:p-5">
-          <slot />
-        </main>
-      </div>
+      <footer class="mt-20 pt-6 border-t border-border font-sans text-[13px] text-text-muted flex items-center gap-4 flex-wrap">
+        <a href="https://github.com/noah-brown" class="no-underline hover:text-text-dim transition-colors">GitHub</a>
+        <a href="https://www.linkedin.com/in/noahjbrown/" class="no-underline hover:text-text-dim transition-colors">LinkedIn</a>
+        <a href="mailto:contact@noahbrown.io" class="no-underline hover:text-text-dim transition-colors">contact@noahbrown.io</a>
+      </footer>
     </div>
 
     <script>

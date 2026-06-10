@@ -1,27 +1,81 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-@theme {
-  --color-bg: #08090e;
-  --color-surface: #0d1018;
-  --color-surface-raised: #131722;
-  --color-border: #1c2233;
-  --color-border-bright: #283148;
-  --color-text: #cdd5e8;
-  --color-text-dim: #7a89a8;
-  --color-text-muted: #424f68;
-  --color-heading: #e8edf6;
-  --color-accent: #5ce0ff;
-  --color-accent-dim: #00a8cc;
-  --color-accent-glow: rgba(0,212,255,0.12);
-  --color-warn: #ffb800;
-  --color-error: #ff4757;
-  --color-magenta: #a855f7;
-  --color-green: #22c55e;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-  --font-display: 'Space Mono', monospace;
-  --font-body: 'IBM Plex Mono', monospace;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+/* Light theme — warm parchment / earth tones */
+:root {
+  color-scheme: light;
+  --bg: #faf7f0;
+  --surface: #f3eee2;
+  --surface-raised: #ebe4d3;
+  --border: #e2d9c7;
+  --border-bright: #cfc3ab;
+  --text: #3d3a31;
+  --text-dim: #6e6655;
+  --text-muted: #999078;
+  --heading: #2a261e;
+  --accent: #9c4a2f;
+  --accent-dim: #7c3b26;
+  --accent-glow: rgba(156, 74, 47, 0.07);
+  --warn: #9c7c2a;
+  --error: #a13d2d;
+  --magenta: #7b5a8c;
+  --green: #5f7a52;
+}
+
+/* Dark theme — slate grey */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #23262b;
+  --surface: #2a2e34;
+  --surface-raised: #31363d;
+  --border: #3c424b;
+  --border-bright: #4c545f;
+  --text: #cfd3d8;
+  --text-dim: #99a1ab;
+  --text-muted: #828a95;
+  --heading: #eceef0;
+  --accent: #cf8a66;
+  --accent-dim: #b3714f;
+  --accent-glow: rgba(207, 138, 102, 0.09);
+  --warn: #c9a45a;
+  --error: #c4796a;
+  --magenta: #a18ab3;
+  --green: #8aa37c;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-border: var(--border);
+  --color-border-bright: var(--border-bright);
+  --color-text: var(--text);
+  --color-text-dim: var(--text-dim);
+  --color-text-muted: var(--text-muted);
+  --color-heading: var(--heading);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-glow: var(--accent-glow);
+  --color-warn: var(--warn);
+  --color-error: var(--error);
+  --color-magenta: var(--magenta);
+  --color-green: var(--green);
+
+  --font-serif: 'Source Serif 4 Variable', 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+html {
+  font-family: var(--font-serif);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 ::selection {
@@ -29,78 +83,75 @@
   color: var(--color-bg);
 }
 
-/* Scanline overlay */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-  pointer-events: none;
-  z-index: 9999;
+/* Theme-aware prose colors for the typography plugin */
+.prose {
+  --tw-prose-body: var(--color-text);
+  --tw-prose-headings: var(--color-heading);
+  --tw-prose-lead: var(--color-text-dim);
+  --tw-prose-links: var(--color-accent);
+  --tw-prose-bold: var(--color-heading);
+  --tw-prose-counters: var(--color-text-muted);
+  --tw-prose-bullets: var(--color-border-bright);
+  --tw-prose-hr: var(--color-border);
+  --tw-prose-quotes: var(--color-text-dim);
+  --tw-prose-quote-borders: var(--color-border-bright);
+  --tw-prose-captions: var(--color-text-muted);
+  --tw-prose-code: var(--color-accent-dim);
+  --tw-prose-pre-code: var(--color-text);
+  --tw-prose-pre-bg: var(--color-surface);
+  --tw-prose-th-borders: var(--color-border-bright);
+  --tw-prose-td-borders: var(--color-border);
 }
 
-/* Blinking cursor animation */
-@keyframes blink {
-  50% { opacity: 0; }
-}
-
-/* Pulsing status dot */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
 /* ================================================
    Blog post custom components
-   Add this to the bottom of src/styles/global.css
+   (class names referenced from markdown post HTML —
+   keep selectors stable, restyle only)
    ================================================ */
 
 /* Section breaks */
 .section-break {
-  font-family: var(--font-mono);
-  font-size: 14px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
   color: var(--color-text-dim);
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin: 48px 0 32px;
-  padding: 8px 0;
+  padding: 12px 0 0;
   border-top: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 .section-break span {
-  color: var(--color-accent);
-  font-size: 12px;
+  display: none;
 }
 
 /* History cards */
 .history-card {
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: 6px;
   margin: 32px 0;
   overflow: hidden;
-  transition: border-color 0.3s;
-}
-.history-card:hover {
-  border-color: var(--color-border-bright);
 }
 .history-card-header {
   padding: 8px 16px;
-  background: var(--color-surface-raised);
+  background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .hc-year {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
   color: var(--color-accent);
 }
 .hc-what {
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-sans);
+  font-size: 11px;
   color: var(--color-text-muted);
   letter-spacing: 0.05em;
 }
@@ -119,13 +170,13 @@ body::after {
 }
 .hc-lost, .hc-gained {
   flex: 1;
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-family: var(--font-sans);
+  font-size: 13px;
   line-height: 1.5;
   color: var(--color-text-dim);
 }
 .hc-label {
-  font-size: 9px;
+  font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-bottom: 4px;
@@ -138,12 +189,12 @@ body::after {
   margin: 32px 0;
   padding: 16px;
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: 6px;
   background: var(--color-surface);
 }
 .threat-meter-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
+  font-family: var(--font-sans);
+  font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-text-muted);
@@ -156,8 +207,8 @@ body::after {
   margin-bottom: 8px;
 }
 .threat-era {
-  font-family: var(--font-mono);
-  font-size: 11px;
+  font-family: var(--font-sans);
+  font-size: 13px;
   color: var(--color-text-dim);
   width: 120px;
   flex-shrink: 0;
@@ -166,71 +217,70 @@ body::after {
   flex: 1;
   height: 12px;
   background: var(--color-surface-raised);
-  border-radius: 2px;
+  border-radius: 6px;
   border: 1px solid var(--color-border);
   overflow: hidden;
 }
 .threat-fill {
   height: 100%;
-  border-radius: 1px;
+  border-radius: 6px;
 }
 .threat-level {
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-sans);
+  font-size: 12px;
   width: 50px;
   flex-shrink: 0;
   text-align: right;
 }
 .threat-note {
-  font-family: var(--font-mono);
-  font-size: 10px;
+  font-family: var(--font-sans);
+  font-size: 12px;
   color: var(--color-text-muted);
   margin-top: 8px;
   font-style: italic;
 }
 
-/* Conclusion box */
+/* Conclusion box — editorial pull-quote */
 .conclusion-box {
   margin: 48px 0 32px;
-  border: 1px solid var(--color-accent);
-  border-radius: 4px;
+  border-left: 3px solid var(--color-accent);
+  border-radius: 0 6px 6px 0;
+  background: var(--color-surface);
   overflow: hidden;
-  box-shadow: 0 0 30px var(--color-accent-glow), 0 0 60px rgba(0,212,255,0.05);
 }
 .conclusion-header {
-  padding: 8px 16px;
-  background: var(--color-accent);
-  color: var(--color-bg);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  padding: 16px 24px 0;
+  background: transparent;
+  color: var(--color-accent-dim);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 .conclusion-body {
-  padding: 24px;
-  background: var(--color-surface);
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
+  padding: 12px 24px 24px;
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 500;
+  font-style: italic;
   color: var(--color-heading);
   line-height: 1.6;
 }
 
-/* Sources block */
+/* Sources block — footnote register */
 .sources-block {
   margin: 40px 0;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  overflow: hidden;
+  border-top: 1px solid var(--color-border);
+  padding-top: 4px;
 }
 .sources-header {
-  padding: 6px 12px;
-  background: var(--color-surface-raised);
-  border-bottom: 1px solid var(--color-border);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.1em;
+  padding: 8px 0 4px;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--color-text-muted);
   display: flex;
@@ -238,17 +288,12 @@ body::after {
   gap: 6px;
 }
 .sources-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 6px rgba(92,224,255,0.4);
+  display: none;
 }
 .sources-body {
-  padding: 12px 16px;
-  font-family: var(--font-mono);
-  font-size: 11px;
+  padding: 4px 0;
+  font-family: var(--font-sans);
+  font-size: 13px;
   color: var(--color-text-dim);
   line-height: 1.9;
 }
@@ -256,7 +301,8 @@ body::after {
   margin-bottom: 4px;
 }
 .sources-body strong {
-  color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: 600;
 }
 .fn-back {
   display: inline-block;
@@ -264,14 +310,13 @@ body::after {
   color: var(--color-accent);
   text-decoration: none;
   font-size: 13px;
-  transition: filter 0.15s;
 }
 .fn-back:hover {
-  filter: drop-shadow(0 0 6px rgba(92,224,255,0.6));
+  text-decoration: underline;
 }
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .hc-tradeoff { flex-direction: column; gap: 8px; }
-  .threat-era { width: 80px; font-size: 10px; }
+  .threat-era { width: 80px; font-size: 11px; }
 }

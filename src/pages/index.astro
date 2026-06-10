@@ -3,64 +3,80 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 5);
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 function formatDate(date: Date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}.${m}.${d}`;
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-function readTime(body: string | undefined) {
-  if (!body) return '1 min';
-  const words = body.trim().split(/\s+/).length;
-  return `${Math.max(1, Math.ceil(words / 230))} min`;
-}
+const selectedProjects = [
+  {
+    name: 'SD Legislature Tracker',
+    href: 'https://sdleg.vercel.app',
+    blurb: 'A civic tool that makes South Dakota’s legislative process legible to the people it governs.',
+  },
+  {
+    name: 'Threadline',
+    href: null,
+    blurb: 'A news reader that organizes stories into ongoing narratives instead of isolated headlines.',
+  },
+  {
+    name: 'Cutline',
+    href: 'https://cut-line.com',
+    blurb: 'A daily baseball trivia game built around the pleasure of almost remembering.',
+  },
+];
 ---
 
-<BaseLayout
-  title="Noah Brown"
-  breadcrumb={`~<span class="text-border-bright mx-0.5">/</span>blog<span class="text-border-bright mx-0.5">/</span><span class="text-accent">all-posts</span>`}
-  breadcrumbMeta={`${posts.length} entries`}
-  activeTab="home"
->
-  {/* Hero */}
-  <div class="mb-8 pb-6 border-b border-border">
-    <div class="font-mono text-[12px] text-accent mb-2 flex items-center gap-2">
-      $ whoami <span class="inline-block w-[7px] h-[14px] bg-accent animate-[blink_1s_step-end_infinite]"></span>
-    </div>
-    <h1 class="font-display text-[clamp(28px,3.5vw,38px)] font-bold text-heading leading-[1.2] mb-3">
-      Hey, I'm Noah.
-    </h1>
-    <p class="text-[14px] text-text-dim max-w-[55ch] leading-[1.7]">
-      IT engineer building infrastructure, automating the boring stuff, and playing golf. I write about Ansible, Linux, firewalls, and the occasional AI experiment.
+<BaseLayout title="Noah Brown">
+  <section class="mb-14">
+    <p class="text-text leading-[1.8] mb-5">
+      I'm Noah Brown, an AI solutions engineer. I help organizations adopt AI in ways
+      that are useful, honest, and accountable to the people who depend on them. The
+      starting point is always a real problem someone has, and the technology earns
+      its place by solving it.
     </p>
-  </div>
+    <p class="text-text-dim leading-[1.8]">
+      I spent years building and running infrastructure: networks, automation, the
+      systems everything else stands on. That background shapes how I think about AI.
+      It should work like good infrastructure, reliable, understandable, and quietly
+      useful in support of human judgment. I write here about building with AI, what
+      it changes, and what it shouldn't.
+    </p>
+  </section>
 
-  {/* Post list header */}
-  <div class="grid grid-cols-[90px_1fr_110px_80px] gap-4 px-3 py-2 font-mono text-[10px] tracking-[0.12em] uppercase text-text-muted border-b border-border-bright mb-1 max-md:grid-cols-[70px_1fr] max-md:[&>:nth-child(3)]:hidden max-md:[&>:nth-child(4)]:hidden">
-    <div>date</div>
-    <div>title</div>
-    <div>topic</div>
-    <div class="text-right">read</div>
-  </div>
+  <section class="mb-14">
+    <h2 class="font-sans text-[13px] font-medium uppercase tracking-[0.12em] text-text-muted border-b border-border pb-2 mb-5">Writing</h2>
+    <ul class="list-none p-0 m-0 space-y-5">
+      {posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.id}/`} class="text-heading text-[19px] no-underline hover:text-accent transition-colors">
+            {post.data.title}
+          </a>
+          <div class="font-sans text-[13px] text-text-muted mt-0.5">{formatDate(post.data.date)}</div>
+        </li>
+      ))}
+    </ul>
+  </section>
 
-  {/* Post rows */}
-  {posts.map((post) => (
-    <a href={`/blog/${post.id}/`} class="grid grid-cols-[90px_1fr_110px_80px] gap-4 p-3 border-b border-border no-underline rounded-sm transition-all hover:bg-accent-glow hover:border-transparent hover:shadow-[inset_2px_0_0_var(--color-accent)] items-baseline max-md:grid-cols-[70px_1fr] max-md:[&>:nth-child(3)]:hidden max-md:[&>:nth-child(4)]:hidden">
-      <div class="font-mono text-[12px] text-text-muted">{formatDate(post.data.date)}</div>
-      <div class="flex flex-col gap-0.5">
-        <div class="font-body text-[14px] text-heading font-medium">{post.data.title}</div>
-        {post.data.description && (
-          <div class="text-[12px] text-text-dim leading-[1.5]">{post.data.description}</div>
-        )}
-      </div>
-      <div class="font-mono text-[11px] text-text-dim">
-        {post.data.tags[0] && <><span class="text-magenta">#</span>{post.data.tags[0]}</>}
-      </div>
-      <div class="font-mono text-[11px] text-text-muted text-right">{readTime(post.body)}</div>
-    </a>
-  ))}
+  <section>
+    <h2 class="font-sans text-[13px] font-medium uppercase tracking-[0.12em] text-text-muted border-b border-border pb-2 mb-5">Selected projects</h2>
+    <ul class="list-none p-0 m-0 space-y-5">
+      {selectedProjects.map((project) => (
+        <li>
+          {project.href ? (
+            <a href={project.href} class="text-heading text-[19px] no-underline hover:text-accent transition-colors">
+              {project.name}
+            </a>
+          ) : (
+            <span class="text-heading text-[19px]">{project.name}</span>
+          )}
+          <p class="text-[16px] text-text-dim leading-[1.7] mt-0.5">{project.blurb}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="font-sans text-[14px] mt-6">
+      <a href="/projects/" class="text-text-dim no-underline hover:text-heading transition-colors">All projects &rarr;</a>
+    </p>
+  </section>
 </BaseLayout>
